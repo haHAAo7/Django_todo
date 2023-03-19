@@ -4,14 +4,14 @@
 
 <head>
 
-  <meta charset="utf-8">
-  <title>{{title}}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <!--style-->
-  <style>
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--style-->
+    <style>
   .card {
 
    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5),
@@ -23,6 +23,9 @@
    overflow: auto;
    resize: both;
    text-overflow: ellipsis;
+   position:relative
+   z-index: 1;
+
   }
   .card:hover{
     background: lightblue;
@@ -37,58 +40,78 @@
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4),
                 0 6px 20px 0 rgba(0,0,0,0.36);
   }
-  </style>
+
+  .links{
+  text-decoration: none;
+  color: inherit;
+  }
+
+
+
+
+
+
+
+
+
+
+    </style>
 
 </head>
 
-<body  class="container-fluid">
-
-  {% if messages %}
-  {% for message in messages %}
-  <div class="alert alert-info">
+<body class="container-fluid">
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-info">
     <strong>{{message}}</strong>
-  </div>
-  {% endfor %}
-  {% endif %}
+</div>
+{% endfor %}
+{% endif %}
 
-  <center class="row">
+<center class="row">
     <h1><i>Ежедневник</i></h1>
-    <hr />
-  </center>
+    <hr/>
+</center>
 
-  <div class="row">
-
+<div class="row">
     <div class="col-md-8">
 
-      {% for i in list %}
-      <div class="card">
-        <center><b>{{i.title}}</b></center>
-        <hr/>
-        <p><b>Дата добавления:</b> {{i.date}}</p>
-        <p><b>Дедлайн:</b> {{i.deadline}}</p>
-        <hr/>
-        {{i.details}}
-        <br />
-        <br />
-        <form action="/del/{{i.id}}" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
-          {% csrf_token %}
-          <button value="remove" type="submit"  class="btn btn-primary" style="float: right;"><span class="glyphicon glyphicon-trash"></span> &nbsp; удалить</button>
-        </form>
-      </div>
-      {% endfor%}
+        {% for i in list %}
+        <div class="card">
+            <center><b>{{i.title}}</b></center>
+            <hr/>
+            <p><b>Дата добавления:</b> {{i.date}}</p>
+            <p><b>Дедлайн:</b> {{i.deadline}}</p>
+            <hr/>
+            {{i.details}}
+            <br/>
+            <br/>
+            <form action="/del/{{i.id}}" method="POST" style=" padding-right: 4%; padding-bottom: 3%;">
+                {% csrf_token %}
+                <button value="remove" type="submit" class="btn btn-primary" style="float: right;"><span
+                        class="glyphicon glyphicon-trash"></span> &nbsp; удалить
+                </button>
+            </form>
+        </div>
+        {% endfor%}
     </div>
-    <div class="col-md-1"> </div>
-    <div class="col-md-3" >
-      <div  class="submit_form">
-      <form  method="POST">
-        {% csrf_token %}
-        {{forms|crispy}}
-        <center>
-        <input type="submit" class="btn btn-default" value="Добавить" />
-      </center>
-      </form>
+    <div class="col-md-1"></div>
+    <div class="col-md-3">
+        <div class="submit_form">
+            <form method="POST">
+                {% csrf_token %}
+                {{forms|crispy}}
+                <center>
+                    <input style="margin-top: 5%" type="submit" class="btn btn-default" value="Добавить"/>
+                </center>
+            </form>
+            <div style="margin-top: 5%">
+                <button type="button" class="btn btn-primary">
+                    <a class="links" href="{% url 'schedule' %}">Расписание</a>
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 </body>
 
