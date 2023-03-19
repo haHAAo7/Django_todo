@@ -6,4 +6,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name="todo_page"),
     path('del/<str:item_id>', views.remove, name="del"),
+    path('schedule/', views.schedule, name="schedule")
 ]
